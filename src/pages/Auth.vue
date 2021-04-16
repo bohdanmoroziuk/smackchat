@@ -1,11 +1,11 @@
 <template>
   <q-page class="flex">
-    Home
+    Auth
   </q-page>
 </template>
 
 <script>
 export default {
-  name: 'Index',
+  name: 'Auth',
 };
 </script>
