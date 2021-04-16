@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title class="absolute-center">
-          SmackChat
+          {{ title }}
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -17,5 +17,15 @@
 <script>
 export default {
   name: 'MainLayout',
+  data() {
+    return {
+      defaultTitle: 'SmackChat',
+    };
+  },
+  computed: {
+    title() {
+      return this.$route.meta?.title ?? this.defaultTitle;
+    },
+  },
 };
 </script>
