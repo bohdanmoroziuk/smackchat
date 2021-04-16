@@ -1,36 +1,53 @@
 <template>
-  <q-page class="flex">
+  <q-page class="flex column">
+    <q-banner class="bg-grey-4">
+      User is offline.
+    </q-banner>
+    <div class="q-pa-sm column col justify-end">
+      <q-chat-message
+        v-for="message of messages"
+        :name="message.from"
+        :key="message.text"
+        :text="[message.text]"
+        :sent="message.from === 'me'"
+      />
+    </div>
     <q-footer elevated>
       <q-toolbar>
-        <q-input
+        <q-form
           class="full-width"
-          bg-color="white"
-          rounded
-          outlined
-          v-model.trim="message"
-          label="Message"
-          dense
         >
+          <q-input
+            bg-color="white"
+            rounded
+            outlined
+            v-model.trim="text"
+            label="Message"
+            dense
+          >
 
-          <template v-slot:append>
-            <q-icon
-              v-if="hasMessage"
-              class="cursor-pointer"
-              name="close"
-              @click="clearMessage"
-            />
-          </template>
+            <template v-slot:append>
+              <q-icon
+                v-if="hasText"
+                class="cursor-pointer"
+                name="close"
+                @click="clearText"
+              />
+            </template>
 
-          <template v-slot:after>
-            <q-btn
-              round
-              dense
-              flat
-              color="white"
-              icon="send"
-            />
-          </template>
-        </q-input>
+            <template v-slot:after>
+              <q-btn
+                round
+                dense
+                flat
+                color="white"
+                icon="send"
+                :disable="!hasText"
+                @click="sendMessage"
+              />
+            </template>
+          </q-input>
+        </q-form>
       </q-toolbar>
     </q-footer>
   </q-page>
@@ -41,17 +58,39 @@ export default {
   name: 'Chat',
   data() {
     return {
-      message: '',
+      text: '',
+      messages: [
+        {
+          text: 'Hey, how are you?',
+          from: 'me',
+        },
+        {
+          text: 'Good thanks. How are you?',
+          from: 'them',
+        },
+        {
+          text: 'Pretty good!',
+          from: 'me',
+        },
+      ],
     };
   },
   computed: {
-    hasMessage() {
-      return this.message !== '';
+    hasText() {
+      return this.text !== '';
     },
   },
   methods: {
-    clearMessage() {
-      this.message = '';
+    clearText() {
+      this.text = '';
+    },
+    sendMessage() {
+      const message = {
+        text: this.text,
+        from: 'me',
+      };
+
+      this.messages.push(message);
     },
   },
 };
