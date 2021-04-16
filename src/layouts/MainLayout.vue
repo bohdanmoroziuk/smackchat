@@ -2,6 +2,15 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
+        <q-btn
+          v-if="!isHomePage"
+          v-go-back.single
+          icon="arrow_back"
+          label="Back"
+          flat
+          dense
+        />
+
         <q-toolbar-title class="absolute-center">
           {{ title }}
         </q-toolbar-title>
@@ -20,9 +29,13 @@ export default {
   data() {
     return {
       defaultTitle: 'SmackChat',
+      homePagePath: '/',
     };
   },
   computed: {
+    isHomePage() {
+      return this.$route.path === this.homePagePath;
+    },
     title() {
       return this.$route.meta?.title ?? this.defaultTitle;
     },
