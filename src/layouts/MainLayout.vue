@@ -19,7 +19,7 @@
           class="q-ml-auto"
           icon="account_circle"
           label="Login"
-          to="/login"
+          to="/auth"
           flat
           dense
         />
