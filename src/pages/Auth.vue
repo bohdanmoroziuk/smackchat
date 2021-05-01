@@ -18,10 +18,10 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="login">
-          <login-form />
+          <login-form @submit="login" />
         </q-tab-panel>
         <q-tab-panel name="register">
-          <register-form />
+          <register-form @submit="register" />
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -29,12 +29,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Auth',
   data() {
     return {
       tab: 'login',
     };
+  },
+  methods: {
+    ...mapActions('auth', ['register', 'login']),
   },
   components: {
     LoginForm: () => import('components/LoginForm'),

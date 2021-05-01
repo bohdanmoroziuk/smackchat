@@ -6,15 +6,7 @@ const dotenv = require('dotenv');
 module.exports = () => {
   const parsedEnv = dotenv.config().parsed || {};
 
-  const safeStringify = (value) => {
-    try {
-      return typeof value === 'string'
-        ? JSON.stringify(value)
-        : value;
-    } catch {
-      return value;
-    }
-  };
+  const safeStringify = (value) => value;
 
   const createEnvReducer = (source, parse) => (env, key) => ({
     ...env,

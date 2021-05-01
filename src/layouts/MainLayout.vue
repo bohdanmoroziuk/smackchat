@@ -16,6 +16,16 @@
         </q-toolbar-title>
 
         <q-btn
+          v-if="isUserLoggedIn"
+          class="q-ml-auto"
+          icon="account_circle"
+          label="Logout"
+          flat
+          dense
+          @click="logout"
+        />
+        <q-btn
+          v-else
           class="q-ml-auto"
           icon="account_circle"
           label="Login"
@@ -23,6 +33,7 @@
           flat
           dense
         />
+
       </q-toolbar>
     </q-header>
 
@@ -33,6 +44,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'MainLayout',
   data() {
@@ -42,12 +55,17 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('auth', ['isUserLoggedIn']),
+
     isHomePage() {
       return this.$route.path === this.homePagePath;
     },
     title() {
       return this.$route.meta?.title ?? this.defaultTitle;
     },
+  },
+  methods: {
+    ...mapActions('auth', ['logout']),
   },
 };
 </script>
