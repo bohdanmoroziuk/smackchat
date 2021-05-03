@@ -47,6 +47,8 @@ export function handleAuthStateChange({ state, commit, dispatch }) {
         },
       });
 
+      dispatch('getUsers');
+
       this.$router.push({ name: 'users' }).catch(() => {});
     } else {
       dispatch('updateUser', {
@@ -69,6 +71,26 @@ export const updateUser = (_, { id, updates }) => {
 
     database.ref(userRef).update(updates);
   }
+};
+
+export const getUsers = ({ commit }) => {
+  database.ref('users').on('child_added', (snapshot) => {
+    const user = {
+      id: snapshot.key,
+      data: snapshot.val(),
+    };
+
+    commit('addUser', user);
+  });
+
+  database.ref('users').on('child_changed', (snapshot) => {
+    const user = {
+      id: snapshot.key,
+      data: snapshot.val(),
+    };
+
+    commit('updateUser', user);
+  });
 };
 
 export const logout = () => {

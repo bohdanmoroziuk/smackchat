@@ -5,8 +5,8 @@
       separator
     >
       <q-item
-        v-for="user of users"
-        :key="user.id"
+        v-for="(user, id) of contacts"
+        :key="id"
         clickable
         v-ripple
         to="/chat"
@@ -32,28 +32,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Index',
-  data() {
-    return {
-      users: [{
-        id: 1,
-        name: 'Ruddy',
-        online: false,
-      }, {
-        id: 2,
-        name: 'Mallorie',
-        online: false,
-      }, {
-        id: 3,
-        name: 'Elisabetta',
-        online: true,
-      }, {
-        id: 4,
-        name: 'Seka',
-        online: false,
-      }],
-    };
+  computed: {
+    ...mapGetters('auth', ['contacts']),
   },
   filters: {
     letter(name) {
