@@ -1,7 +1,7 @@
-import auth from 'src/store/modules/auth';
+import chat from 'src/store/modules/chat';
 
 const modules = {
-  auth,
+  chat,
 };
 
 export default modules;

@@ -9,8 +9,9 @@ const routes = [
         component: () => import('pages/Index.vue'),
       },
       {
-        path: 'chat',
+        path: 'chat/:otherUserId',
         name: 'chat',
+        props: true,
         meta: {
           title: 'Chat',
         },

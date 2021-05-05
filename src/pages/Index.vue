@@ -9,7 +9,7 @@
         :key="id"
         clickable
         v-ripple
-        to="/chat"
+        :to="`/chat/${id}`"
       >
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
@@ -37,7 +37,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Index',
   computed: {
-    ...mapGetters('auth', ['contacts']),
+    ...mapGetters('chat', ['contacts']),
   },
   filters: {
     letter(name) {

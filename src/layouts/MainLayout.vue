@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('auth', ['isUserLoggedIn']),
+    ...mapGetters('chat', ['isUserLoggedIn']),
 
     isHomePage() {
       return this.$route.path === this.homePagePath;
@@ -65,7 +65,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('auth', ['logout']),
+    ...mapActions('chat', ['logout']),
   },
 };
 </script>

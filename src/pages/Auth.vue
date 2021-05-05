@@ -39,7 +39,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('auth', ['register', 'login']),
+    ...mapActions('chat', ['register', 'login']),
   },
   components: {
     LoginForm: () => import('components/LoginForm'),

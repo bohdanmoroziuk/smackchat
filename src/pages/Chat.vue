@@ -54,33 +54,31 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'Chat',
+  props: {
+    otherUserId: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       text: '',
-      messages: [
-        {
-          text: 'Hey, how are you?',
-          from: 'me',
-        },
-        {
-          text: 'Good thanks. How are you?',
-          from: 'them',
-        },
-        {
-          text: 'Pretty good!',
-          from: 'me',
-        },
-      ],
     };
   },
   computed: {
+    ...mapState('chat', ['messages']),
+
     hasText() {
       return this.text !== '';
     },
   },
   methods: {
+    ...mapActions('chat', ['getMessages', 'stopGettingMessages']),
+
     clearText() {
       this.text = '';
     },
@@ -92,6 +90,12 @@ export default {
 
       this.messages.push(message);
     },
+  },
+  created() {
+    this.getMessages(this.otherUserId);
+  },
+  destroyed() {
+    this.stopGettingMessages();
   },
 };
 </script>

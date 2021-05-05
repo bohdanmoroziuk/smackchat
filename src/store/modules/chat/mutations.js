@@ -18,3 +18,14 @@ export const updateUser = (state, user) => {
     },
   };
 };
+
+export const addMessage = (state, message) => {
+  state.messages = {
+    ...state.messages,
+    [message.id]: message.data,
+  };
+};
+
+export const clearMessages = (state) => {
+  state.messages = {};
+};

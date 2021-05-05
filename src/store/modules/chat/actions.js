@@ -1,5 +1,7 @@
 import { auth, database } from 'boot/firebase';
 
+let messagesRef = null;
+
 export const register = (_, { name, email, password }) => {
   auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
@@ -91,6 +93,28 @@ export const getUsers = ({ commit }) => {
 
     commit('updateUser', user);
   });
+};
+
+export const getMessages = ({ commit, state }, otherUserId) => {
+  const userId = state.userDetails.id;
+
+  messagesRef = database.ref(`chat/${userId}/${otherUserId}`);
+
+  messagesRef.on('child_added', (snapshot) => {
+    const message = {
+      id: snapshot.key,
+      data: snapshot.val(),
+    };
+
+    commit('addMessage', message);
+  });
+};
+
+export const stopGettingMessages = ({ commit }) => {
+  if (messagesRef) {
+    messagesRef.off('child_added');
+    commit('clearMessages');
+  }
 };
 
 export const logout = () => {
