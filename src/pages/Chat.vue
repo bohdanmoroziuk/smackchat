@@ -5,9 +5,9 @@
     </q-banner>
     <div class="q-pa-sm column col justify-end">
       <q-chat-message
-        v-for="message of messages"
+        v-for="(message, id) of messages"
         :name="getName(message)"
-        :key="message.text"
+        :key="id"
         :text="[message.text]"
         :sent="message.from === 'me'"
       />
