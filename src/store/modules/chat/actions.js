@@ -98,7 +98,7 @@ export const getUsers = ({ commit }) => {
 export const getMessages = ({ commit, state }, otherUserId) => {
   const userId = state.userDetails.id;
 
-  messagesRef = database.ref(`chat/${userId}/${otherUserId}`);
+  messagesRef = database.ref(`chats/${userId}/${otherUserId}`);
 
   messagesRef.on('child_added', (snapshot) => {
     const message = {
@@ -115,6 +115,15 @@ export const stopGettingMessages = ({ commit }) => {
     messagesRef.off('child_added');
     commit('clearMessages');
   }
+};
+
+export const sendMessage = ({ state }, payload) => {
+  const userId = state.userDetails.id;
+  const { otherUserId, message: userMessage } = payload;
+  const otherUserMessage = { ...userMessage, from: 'them' };
+
+  database.ref(`chats/${userId}/${otherUserId}`).push(userMessage);
+  database.ref(`chats/${otherUserId}/${userId}`).push(otherUserMessage);
 };
 
 export const logout = () => {

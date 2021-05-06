@@ -43,7 +43,7 @@
                 color="white"
                 icon="send"
                 :disable="!hasText"
-                @click="sendMessage"
+                @click="addMessage"
               />
             </template>
           </q-input>
@@ -81,18 +81,21 @@ export default {
     },
   },
   methods: {
-    ...mapActions('chat', ['getMessages', 'stopGettingMessages']),
+    ...mapActions('chat', ['getMessages', 'stopGettingMessages', 'sendMessage']),
 
     clearText() {
       this.text = '';
     },
-    sendMessage() {
-      const message = {
-        text: this.text,
-        from: 'me',
-      };
+    addMessage() {
+      this.sendMessage({
+        message: {
+          text: this.text,
+          from: 'me',
+        },
+        otherUserId: this.otherUserId,
+      });
 
-      this.messages.push(message);
+      this.text = '';
     },
     getName(message) {
       return message.from === 'me'
