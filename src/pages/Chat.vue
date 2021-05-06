@@ -27,6 +27,7 @@
             v-model.trim="text"
             label="Message"
             dense
+            ref="textField"
           >
 
             <template v-slot:append>
@@ -103,6 +104,7 @@ export default {
 
     clearText() {
       this.text = '';
+      this.$refs.textField.focus();
     },
     addMessage() {
       this.sendMessage({
@@ -113,7 +115,7 @@ export default {
         otherUserId: this.otherUserId,
       });
 
-      this.text = '';
+      this.clearText();
     },
     getName(message) {
       return message.from === 'me'
