@@ -7,3 +7,5 @@ export const contacts = (state) => (
     .keys(state.users)
     .filter((key) => key !== state.userDetails.id)
     .reduce((contacts, key) => ({ ...contacts, [key]: state.users[key] }), {}));
+
+export const getUserDetails = (state) => (id) => state.users[id] ?? {};

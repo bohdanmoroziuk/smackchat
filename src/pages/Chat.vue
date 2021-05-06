@@ -1,12 +1,12 @@
 <template>
   <q-page class="flex column">
-    <q-banner class="bg-grey-4">
-      User is offline.
+    <q-banner class="bg-grey-4 text-center">
+      {{ otherUserDetails.name }} is {{ otherUserDetails.online | status }}.
     </q-banner>
     <div class="q-pa-sm column col justify-end">
       <q-chat-message
         v-for="message of messages"
-        :name="message.from"
+        :name="getName(message)"
         :key="message.text"
         :text="[message.text]"
         :sent="message.from === 'me'"
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Chat',
@@ -70,10 +70,14 @@ export default {
     };
   },
   computed: {
-    ...mapState('chat', ['messages']),
+    ...mapState('chat', ['messages', 'userDetails']),
+    ...mapGetters('chat', ['getUserDetails']),
 
     hasText() {
       return this.text !== '';
+    },
+    otherUserDetails() {
+      return this.getUserDetails(this.otherUserId);
     },
   },
   methods: {
@@ -89,6 +93,16 @@ export default {
       };
 
       this.messages.push(message);
+    },
+    getName(message) {
+      return message.from === 'me'
+        ? this.userDetails.name
+        : this.otherUserDetails.name;
+    },
+  },
+  filters: {
+    status(online) {
+      return online ? 'online' : 'offline';
     },
   },
   created() {
