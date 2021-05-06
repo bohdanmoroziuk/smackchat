@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex column" ref="page">
-    <q-banner class="bg-grey-4 text-center">
+    <q-banner class="bg-grey-4 text-center fixed-top user-status">
       {{ otherUserDetails.name }} is {{ otherUserDetails.online | status }}.
     </q-banner>
     <div
@@ -143,3 +143,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.user-status {
+  top: 50px;
+  z-index: 2;
+  opacity: 0.75;
+}
+</style>
