@@ -1,9 +1,12 @@
 <template>
-  <q-page class="flex column">
+  <q-page class="flex column" ref="page">
     <q-banner class="bg-grey-4 text-center">
       {{ otherUserDetails.name }} is {{ otherUserDetails.online | status }}.
     </q-banner>
-    <div class="q-pa-sm column col justify-end">
+    <div
+      class="q-pa-sm column col justify-end"
+      :class="{ invisible: !showMessages }"
+    >
       <q-chat-message
         v-for="(message, id) of messages"
         :name="getName(message)"
@@ -67,7 +70,22 @@ export default {
   data() {
     return {
       text: '',
+      showMessages: false,
     };
+  },
+  watch: {
+    messages: {
+      immediate: true,
+      handler(messages) {
+        if (Object.keys(messages).length) {
+          this.scrollToBottom();
+
+          setTimeout(() => {
+            this.showMessages = true;
+          }, 200);
+        }
+      },
+    },
   },
   computed: {
     ...mapState('chat', ['messages', 'userDetails']),
@@ -101,6 +119,13 @@ export default {
       return message.from === 'me'
         ? this.userDetails.name
         : this.otherUserDetails.name;
+    },
+    scrollToBottom() {
+      const page = this.$refs.page.$el;
+
+      setTimeout(() => {
+        window.scrollTo(0, page.scrollHeight);
+      }, 100);
     },
   },
   filters: {
