@@ -17,41 +17,7 @@
     </div>
     <q-footer elevated>
       <q-toolbar>
-        <q-form
-          class="full-width"
-        >
-          <q-input
-            bg-color="white"
-            rounded
-            outlined
-            v-model.trim="text"
-            label="Message"
-            dense
-            ref="textField"
-          >
-
-            <template v-slot:append>
-              <q-icon
-                v-if="hasText"
-                class="cursor-pointer"
-                name="close"
-                @click="clearText"
-              />
-            </template>
-
-            <template v-slot:after>
-              <q-btn
-                round
-                dense
-                flat
-                color="white"
-                icon="send"
-                :disable="!hasText"
-                @click="addMessage"
-              />
-            </template>
-          </q-input>
-        </q-form>
+        <message-form @submit="addMessage" />
       </q-toolbar>
     </q-footer>
   </q-page>
@@ -70,7 +36,6 @@ export default {
   },
   data() {
     return {
-      text: '',
       showMessages: false,
     };
   },
@@ -92,9 +57,6 @@ export default {
     ...mapState('chat', ['messages', 'userDetails']),
     ...mapGetters('chat', ['getUserDetails']),
 
-    hasText() {
-      return this.text !== '';
-    },
     otherUserDetails() {
       return this.getUserDetails(this.otherUserId);
     },
@@ -102,20 +64,14 @@ export default {
   methods: {
     ...mapActions('chat', ['getMessages', 'stopGettingMessages', 'sendMessage']),
 
-    clearText() {
-      this.text = '';
-      this.$refs.textField.focus();
-    },
-    addMessage() {
+    addMessage(text) {
       this.sendMessage({
         message: {
-          text: this.text,
+          text,
           from: 'me',
         },
         otherUserId: this.otherUserId,
       });
-
-      this.clearText();
     },
     getName(message) {
       return message.from === 'me'
@@ -140,6 +96,9 @@ export default {
   },
   destroyed() {
     this.stopGettingMessages();
+  },
+  components: {
+    MessageForm: () => import('components/MessageForm'),
   },
 };
 </script>
