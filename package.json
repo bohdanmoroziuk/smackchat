@@ -1,7 +1,7 @@
 {
   "name": "smackchat",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
+  "description": "Real-time chat app",
   "productName": "SmackChat",
   "author": "Bogdan Morozyuk <bogdan7morozyuk@gmail.com>",
   "private": true,
